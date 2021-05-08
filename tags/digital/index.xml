@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>digital on fengfshao&#39;s blog</title>
+    <link>https://fengfshao.github.io/tags/digital/</link>
+    <description>Recent content in digital on fengfshao&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 08 May 2021 12:22:26 +0800</lastBuildDate><atom:link href="https://fengfshao.github.io/tags/digital/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一厘米是多少像素，分辨率到底是什么意思？</title>
+      <link>https://fengfshao.github.io/post/pixel/</link>
+      <pubDate>Sat, 08 May 2021 12:22:26 +0800</pubDate>
+      
+      <guid>https://fengfshao.github.io/post/pixel/</guid>
+      <description>像素这个词一直困扰了我很久，一直对这个词不清不楚，只知道大概能表示长度，但是图片的高清又怎么通过像素体现呢？ 像素 像素，英文缩写px，是一个最</description>
+    </item>
+    
+  </channel>
+</rss>
