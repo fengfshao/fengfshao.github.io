@@ -6,7 +6,16 @@
     <description>Recent content in Posts on fengfshao&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 May 2021 18:38:07 +0800</lastBuildDate><atom:link href="https://fengfshao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 May 2021 16:16:36 +0800</lastBuildDate><atom:link href="https://fengfshao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>java处理分割符需要转义的问题</title>
+      <link>https://fengfshao.github.io/post/split/</link>
+      <pubDate>Fri, 21 May 2021 16:16:36 +0800</pubDate>
+      
+      <guid>https://fengfshao.github.io/post/split/</guid>
+      <description>在数据处理过程中，数据分割是很常见的需求，数据生产方设置好分割符，同步给消费方后，消费方切割数据得到关心的字段。 分割符的设置是一个学问，我个</description>
+    </item>
+    
     <item>
       <title>使用typora&#43;hugo&#43;githubpage维护博客</title>
       <link>https://fengfshao.github.io/post/blog/</link>

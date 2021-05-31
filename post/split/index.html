@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>java处理分割符需要转义的问题 - fengfshao&#39;s blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="fengfshao" /><meta name="description" content="在数据处理过程中，数据分割是很常见的需求，数据生产方设置好分割符，同步给消费方后，消费方切割数据得到关心的字段。 分割符的设置是一个学问，我个" /><meta name="keywords" content="tech, lift, blog" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.80.0 with theme even" />
+
+
+<link rel="canonical" href="https://fengfshao.github.io/post/split/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.762a0f6bf77f452cbc8c5ae3e089201fae49aa2a2ed029ea1f196f8844056fd6.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="java处理分割符需要转义的问题" />
+<meta property="og:description" content="在数据处理过程中，数据分割是很常见的需求，数据生产方设置好分割符，同步给消费方后，消费方切割数据得到关心的字段。 分割符的设置是一个学问，我个" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fengfshao.github.io/post/split/" />
+<meta property="article:published_time" content="2021-05-21T16:16:36+08:00" />
+<meta property="article:modified_time" content="2021-05-21T16:16:36+08:00" />
+<meta itemprop="name" content="java处理分割符需要转义的问题">
+<meta itemprop="description" content="在数据处理过程中，数据分割是很常见的需求，数据生产方设置好分割符，同步给消费方后，消费方切割数据得到关心的字段。 分割符的设置是一个学问，我个">
+<meta itemprop="datePublished" content="2021-05-21T16:16:36+08:00" />
+<meta itemprop="dateModified" content="2021-05-21T16:16:36+08:00" />
+<meta itemprop="wordCount" content="1163">
+
+
+
+<meta itemprop="keywords" content="java," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="java处理分割符需要转义的问题"/>
+<meta name="twitter:description" content="在数据处理过程中，数据分割是很常见的需求，数据生产方设置好分割符，同步给消费方后，消费方切割数据得到关心的字段。 分割符的设置是一个学问，我个"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Open</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Open</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">java处理分割符需要转义的问题</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-05-21 </span>
+        
+          <span class="more-meta"> 约 1163 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#转义字符">转义字符</a></li>
+        <li><a href="#处理转义分割符">处理转义分割符</a>
+          <ul>
+            <li><a href="#在java字符串中">\在java字符串中</a></li>
+            <li><a href="#在java正则表达式中">\在java正则表达式中</a></li>
+          </ul>
+        </li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>在数据处理过程中，数据分割是很常见的需求，数据生产方设置好分割符，同步给消费方后，消费方切割数据得到关心的字段。</p>
+<p>分割符的设置是一个学问，我个人推荐<code>\0</code>字符或其他不可见字符，因为这样可以避免冲突转义的问题。还有一些人，采用精心编造的字段串当分割符，如<code>0a789</code>，这也是为了避免和正文字段中的内容冲突。</p>
+<p>很多人都喜欢用<code>,</code>和<code>|</code>当分割符，好处是可见清晰，但是遇到冲突的可能性较大。</p>
+<p>如以下记录：</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>age</th>
+<th>address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wang</td>
+<td>23</td>
+<td>Beijing, Haidian, Malianwa Street</td>
+</tr>
+</tbody>
+</table>
+<p>此时我们就需要对address里的逗号进行转义。</p>
+<h2 id="转义字符">转义字符</h2>
+<p>首先，严格意义上的转义字符，是指ASCII码中那些不可见字符，这些字符一般以<code>\+某个字符</code>表示，严格转义字符只有以下：
+<figure>
+    <img src="split.assets/image-20210521165833953.png" width="400px" height="600px"/> 
+</figure>
+</p>
+<p><strong>严格转义字符</strong>是指这些字符是一个字符，准确说是一个ASCII字符，具有ASCII编码。在具有char类型的语言中，如在java中是一个char类型，<strong>不是说任何一个字符加上<code>\</code>就是转义字符了</strong>。</p>
+<p>如在java中,</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">char</span> <span class="n">c1</span><span class="o">=</span><span class="sc">&#39;\&#34;&#39;</span> <span class="c1">//正常
+</span><span class="c1"></span><span class="kt">char</span> <span class="n">c2</span><span class="o">=</span><span class="sc">&#39;\,&#39;</span> <span class="c1">//错误，编译无法通过
+</span></code></pre></td></tr></table>
+</div>
+</div><h2 id="处理转义分割符">处理转义分割符</h2>
+<p>当需要转义其他字符，如<code>,</code>,<code>|</code>时，一般会在前面加一个字符进行转义标识，一般会选用<code>\</code>,这里选择加什么是随便的，加<code>A</code>标识转义都可以，只要和相关人同步好就行。</p>
+<p>这里说下加反斜杠\处理转义逗号的情况。</p>
+<h3 id="在java字符串中">\在java字符串中</h3>
+<p>在字符串中，第一个<code>\</code>表示转义开始，后面跟一个字符表示要转义的字符，在java字符串中，<code>\</code>只能出现偶数次。</p>
+<p>因此，要&quot;转义&quot;逗号，即在逗号前添加反斜杠，需要这么写，第一个斜杠表示转义，第二个斜杠表示我要转义的就是<code>\</code>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">info</span><span class="o">=</span><span class="s">&#34;Wang,23,Beijing\\, Haidian\\, Malianwa Street&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="在java正则表达式中">\在java正则表达式中</h3>
+<p>在java正则表达式中，\还表示下一个字符具有特殊含义，如d表示数字，s表示空白字符，.表示任意字符。</p>
+<p>但一个java正则表达式，它首先是一个字符串，因此比如要匹配数字时，需要&quot;\\d&quot;来表示，<strong>但是如果我们要匹配<code>\</code>呢，那么需要<code>\\\\</code></strong>，前两个表达了接下来的字符有特殊含义，后两个告诉你特殊含义就是反斜杠。</p>
+<p>听起来很绕对不对，但是没有办法，其实仔细想想，也只能用四个\，第一个和第二个表示字符本身<code>\</code>，而<code>\</code>本身在正则中具有特殊含义，因此需要继续添加反斜杠表示  一个反斜杠字符  ，但是表示一个反斜杠需要两个反斜杠，<code>\\</code>，因此一共就是四个了。</p>
+<p>因此切割的时候，我们需要以下方式切割使用<code>\,</code>拼接的字符串。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">info</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;\\\\,&#34;</span><span class="o">,-</span><span class="n">1</span><span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>但是我们的原始需求是使用<code>,</code>切割，而不对<code>\,</code>，进行切割，如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">info</span><span class="o">=</span><span class="s">&#34;Wang,23,Beijing\\, Haidian\\, Malianwa Street&#34;</span> 
+<span class="c1">//应该切割为
+</span><span class="c1"></span><span class="o">[</span><span class="s">&#34;Wange&#34;</span><span class="o">,</span><span class="s">&#34;23&#34;</span><span class="o">,</span><span class="s">&#34;Beijing\\, Haidian\\, Malianwa Street&#34;</span><span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>此时，可以利用java正则的&quot;?!&ldquo;来表达，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">String</span> <span class="n">info</span><span class="o">=</span><span class="s">&#34;Wang,23,Beijing\\, Haidian\\, Malianwa Street&#34;</span> 
+<span class="n">String</span> <span class="n">fields</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">&#34;(?!\\\\),&#34;</span><span class="o">,-</span><span class="n">1</span><span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样我们就可以达到我们的目的了，如果我们想对<code>Beijing\\, Haidian\\, Malianwa Street</code>进行反转义，可以调用replace api。</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://www.cnblogs.com/lingyejun/p/11337141.html">关于Java正则和转义中\和\\的理解</a></p>
+<p><a href="https://blog.csdn.net/qq_37493556/article/details/90371745">正则表达式&raquo;&gt;java中匹配一个反斜杠要用四个反斜杠</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">fengfshao</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-05-21
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">java</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/blog/">
+            <span class="next-text nav-default">使用typora&#43;hugo&#43;githubpage维护博客</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-05-21 16:16:36 \u002b0800 CST',
+        title: 'java处理分割符需要转义的问题',
+        clientID: '3676bf4b34f823cab83f',
+        clientSecret: '21c91b888c2d98d2e09f63651054c53b0a3375dd',
+        repo: 'githubpage_comment',
+        owner: 'fengfshao',
+        admin: ['fengfshao'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://fengfshao.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>fengfshao</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
